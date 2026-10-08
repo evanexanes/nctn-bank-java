@@ -1,6 +1,6 @@
 # NCTN Bank
 
-A small banking app in Java with Swing dialog boxes. Built with a classmate in my first year of BSIT, as a Java
+A small banking app in Java with Swing dialog boxes. Built in a two-person team in my first year of BSIT, as a Java
 project for an intermediate programming course.
 
 It covers the basics of a bank: open an account, log in, deposit, withdraw, transfer and read your
