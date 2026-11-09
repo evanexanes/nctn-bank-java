@@ -11,6 +11,7 @@ Date           Description                      Programmer name
 10/08/2026     Initial Implementation           EPPE, RMPP
 11/09/2026     Added header and comments        EPPE with Claude
 11/09/2026     Added RMPP initials              EPPE with Claude
+11/09/2026     Added method comments            EPPE with Claude
 ======================================================================
 */
 
@@ -58,38 +59,47 @@ public class BankAccount {
         transactions.add("Account created with deposit: " + initialBalance);
     }
 
+    /** Returns the account number, which is fixed when the account is opened. */
     public int getAccountNumber() {
         return accountNumber;
     }
 
+    /** Returns the name of the account holder. */
     public String getAccountHolder() {
         return accountHolder;
     }
 
+    /** Returns the current balance in pesos. */
     public double getBalance() {
         return balance;
     }
 
+    /** Returns true when three wrong passwords have locked the account. */
     public boolean isLocked() {
         return locked;
     }
 
+    /** Returns how many wrong passwords have been entered since the last reset. */
     public int getFailedAttempts() {
         return failedAttempts;
     }
 
+    /** Returns the transaction history, oldest first. The list is not copied, so callers should only read it. */
     public ArrayList<String> getTransactions() {
         return transactions;
     }
 
+    /** Replaces the password. The admin menu uses it to reset an account. */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /** Locks or unlocks the account. The admin menu uses it to clear a lockout. */
     public void setLocked(boolean locked) {
         this.locked = locked;
     }
 
+    /** Returns true when the typed password matches the stored one. */
     public boolean checkPassword(String inputPassword) {
         return password.equals(inputPassword);
     }

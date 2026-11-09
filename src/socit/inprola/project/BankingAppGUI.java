@@ -12,6 +12,7 @@ Date           Description                      Programmer name
 11/09/2026     Added header and comments        EPPE with Claude
 11/09/2026     Amounts accept decimals          EPPE with Claude
 11/09/2026     Added RMPP initials              EPPE with Claude
+11/09/2026     Added method comments            EPPE with Claude
 ======================================================================
 */
 
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class BankingAppGUI {
 	
 
+    /** Program entry point. Shows the main menu (create, access, admin, exit) until the user chooses Exit or closes the dialog. */
     public static void main(String[] args) {
 
         Bank bank = new Bank();
@@ -278,6 +280,7 @@ public class BankingAppGUI {
         }
     }
 
+    /** Asks for an amount and withdraws it. Rejects a non-numeric amount, a zero or negative one, and one larger than the balance. */
     private static void handleWithdraw(BankAccount account) {
 
         String input = JOptionPane.showInputDialog("Enter Withdrawal Amount:");
@@ -299,6 +302,7 @@ public class BankingAppGUI {
         }
     }
     
+    /** Shows the account's transaction history in one dialog. */
     private static void showTransactions(BankAccount account) {
 
         String history = "Transaction History:\n";

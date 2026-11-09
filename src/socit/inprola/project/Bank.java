@@ -11,6 +11,7 @@ Date           Description                      Programmer name
 10/08/2026     Initial Implementation           EPPE, RMPP
 11/09/2026     Added header and comments        EPPE with Claude
 11/09/2026     Added RMPP initials              EPPE with Claude
+11/09/2026     Added method comments            EPPE with Claude
 ======================================================================
 */
 
@@ -29,6 +30,7 @@ public class Bank {
     // Next number to hand out. The first account is 1001.
     private int nextAccountNumber;
 
+    /** Creates an empty bank. Account numbers start at 1001. */
     public Bank() {
 
         accounts = new ArrayList<>();
