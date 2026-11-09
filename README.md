@@ -15,7 +15,13 @@
 
 </div>
 
+## What this shows
+- A Java Swing banking app with accounts, deposits, withdrawals, transfers and a transaction history.
+- An account locks after 3 wrong passwords, and only the admin menu can unlock it.
+- The account rules live in `Bank` and `BankAccount`, apart from the menus in `BankingAppGUI`.
+
 ## Contents
+- [What this shows](#what-this-shows)
 - [About](#about)
 - [Features](#features)
 - [Run it](#run-it)
@@ -74,7 +80,7 @@ The code is first-year coursework, shared as it was submitted apart from the dem
 Released under the [MIT License](LICENSE).
 
 ## Authors
-- **Evan Prens P. Exanes** · [GitHub](https://github.com/evanexanes) · [Portfolio](https://evanexanes.github.io/)
+- **Evan Prens P. Exanes** · [GitHub](https://github.com/evanexanes) · [Portfolio](https://evanexanes.github.io/) · [Contact](https://evanexanes.github.io/07-contact.html)
 - **Rhona-mae P. Prudenciado**
 
 See the [case study](https://evanexanes.github.io/10-case-study-nctn-bank.html) on the portfolio.
