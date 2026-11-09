@@ -18,7 +18,6 @@
 - [Project structure](#project-structure)
 - [What I would change today](#what-i-would-change-today)
 - [Changes after submission](#changes-after-submission)
-- [Source file headers](#source-file-headers)
 - [License](#license)
 - [Authors](#authors)
 
@@ -66,27 +65,6 @@ The code is first-year coursework, shared as it was submitted apart from the dem
 - Amounts accept up to two decimals. Before, only whole numbers worked, and a negative deposit got the wrong message.
 - The balance prints with two decimals.
 - An account number longer than nine digits is refused. Before, it threw an error.
-
-## Source file headers
-Every source file opens with the block below. A commit that changes a file adds a row to its history table.
-
-```text
-Program name: <file name>
-Description: <what the file does>
-Author: Exanes, Evan Prens; Prudenciado, Rhona-mae P.
-Date Compiled: MM/DD/YYYY
-======================================================================
-Date           Description                      Programmer name
-======================================================================
-MM/DD/YYYY     Initial Implementation           EPPE, RMPP
-======================================================================
-```
-
-| Initials | Person |
-|---|---|
-| `EPPE` | Evan Prens P. Exanes |
-| `RMPP` | Rhona-mae P. Prudenciado |
-| `with Claude` | Added after the initials when the change was written with AI help |
 
 ## License
 Released under the [MIT License](LICENSE).
