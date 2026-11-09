@@ -3,13 +3,13 @@ Program name: BankAccount.java
 Description: Models one bank account: holder, password, balance, transaction history
    and login lockout. Three wrong passwords lock the account until an admin unlocks
    it.
-Author: Exanes, Evan Prens (two-person team project)
+Author: Exanes, Evan Prens; Prudenciado, Rhona-mae P.
 Date Compiled: 10/08/2026
 ======================================================================
 Date           Description                      Programmer name
 ======================================================================
 10/08/2026     Initial Implementation           EPPE
-11/09/2026     Added header and comments        EPPE
+11/09/2026     Added header and comments        EPPE with Claude
 ======================================================================
 */
 

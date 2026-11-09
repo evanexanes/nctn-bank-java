@@ -3,13 +3,14 @@ Program name: BankingAppGUI.java
 Description: Entry point and menus for NCTN Bank. JOptionPane dialogs drive account
    creation, login, deposit, withdrawal, transfer, transaction history and the admin
    menu.
-Author: Exanes, Evan Prens (two-person team project)
+Author: Exanes, Evan Prens; Prudenciado, Rhona-mae P.
 Date Compiled: 10/08/2026
 ======================================================================
 Date           Description                      Programmer name
 ======================================================================
 10/08/2026     Initial Implementation           EPPE
-11/09/2026     Added header and comments        EPPE
+11/09/2026     Added header and comments        EPPE with Claude
+11/09/2026     Amounts accept decimals          EPPE with Claude
 ======================================================================
 */
 
@@ -77,12 +78,14 @@ public class BankingAppGUI {
     }
 
     /**
-     * True for a non-empty string of digits only. Decimals and negatives are rejected, and a
-     * value above 2,147,483,647 passes here but makes Integer.parseInt throw in the callers.
+     * True for a string of one to nine digits, which always fits in an int. Used for account numbers.
      */
     private static boolean isNumeric(String input) {
 
         if (input == null || input.isBlank()) return false;
+
+        // Nine digits at most, so Integer.parseInt cannot overflow.
+        if (input.length() > 9) return false;
 
         for (int i = 0; i < input.length(); i++) {
             if (!Character.isDigit(input.charAt(i))) {
@@ -91,6 +94,15 @@ public class BankingAppGUI {
         }
 
         return true;
+    }
+
+    /**
+     * True for a money amount: an optional minus sign, up to twelve digits and at most two decimal
+     * places, such as "50", "12.5" or "-3". The sign is accepted so callers can say why it is refused.
+     */
+    private static boolean isAmount(String input) {
+
+        return input != null && input.matches("-?\\d{1,12}(\\.\\d{1,2})?");
     }
 
     /** Asks for a holder name, a password and a whole-number deposit, then opens the account. */
@@ -104,7 +116,7 @@ public class BankingAppGUI {
 
         String depositInput = JOptionPane.showInputDialog("Enter Initial Deposit:");
 
-        if (!isNumeric(depositInput)) {
+        if (!isAmount(depositInput)) {
             JOptionPane.showMessageDialog(null,
                     "Deposit must be numeric.");
             return;
@@ -112,8 +124,9 @@ public class BankingAppGUI {
 
         double deposit = Double.parseDouble(depositInput);
 
-        // Unreachable while isNumeric rejects "-". Kept as a guard.
-        if (deposit < 0) {
+        // isAmount lets a minus sign through so a negative deposit gets its own message. The text is
+        // checked, not the number, because "-0" parses to a negative zero that "< 0" would miss.
+        if (depositInput.startsWith("-")) {
             JOptionPane.showMessageDialog(null,
                     "Deposit cannot be negative.");
             return;
@@ -210,7 +223,7 @@ public class BankingAppGUI {
 
                 case "1":
                     JOptionPane.showMessageDialog(null,
-                            "Current Balance: " + account.getBalance());
+                            String.format("Current Balance: %.2f", account.getBalance()));
                     break;
 
                 case "2":
@@ -247,7 +260,7 @@ public class BankingAppGUI {
 
         String input = JOptionPane.showInputDialog("Enter Deposit Amount:");
 
-        if (!isNumeric(input)) {
+        if (!isAmount(input)) {
             JOptionPane.showMessageDialog(null,
                     "Amount must be numeric.");
             return;
@@ -268,7 +281,7 @@ public class BankingAppGUI {
 
         String input = JOptionPane.showInputDialog("Enter Withdrawal Amount:");
 
-        if (!isNumeric(input)) {
+        if (!isAmount(input)) {
             JOptionPane.showMessageDialog(null,
                     "Amount must be numeric.");
             return;
@@ -314,7 +327,7 @@ public class BankingAppGUI {
         String amountInput = JOptionPane.showInputDialog(
                 "Enter Transfer Amount:");
 
-        if (!isNumeric(amountInput)) {
+        if (!isAmount(amountInput)) {
             JOptionPane.showMessageDialog(null,
                     "Amount must be numeric.");
             return;

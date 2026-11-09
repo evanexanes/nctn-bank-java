@@ -3,13 +3,13 @@ Program name: Bank.java
 Description: Holds every account in NCTN Bank in an ArrayList and creates, finds and
    transfers between them. Account numbers start at 1001 and count up. Nothing is
    saved to disk, so closing the app erases the accounts.
-Author: Exanes, Evan Prens (two-person team project)
+Author: Exanes, Evan Prens; Prudenciado, Rhona-mae P.
 Date Compiled: 10/08/2026
 ======================================================================
 Date           Description                      Programmer name
 ======================================================================
 10/08/2026     Initial Implementation           EPPE
-11/09/2026     Added header and comments        EPPE
+11/09/2026     Added header and comments        EPPE with Claude
 ======================================================================
 */
 
