@@ -1,31 +1,46 @@
+/*
+Program name: BankAccount.java
+Description: Models one bank account: holder, password, balance, transaction history
+   and login lockout. Three wrong passwords lock the account until an admin unlocks
+   it.
+Author: Exanes, Evan Prens (two-person team project)
+Date Compiled: 10/08/2026
+======================================================================
+Date           Description                      Programmer name
+======================================================================
+10/08/2026     Initial Implementation           EPPE
+11/09/2026     Added header and comments        EPPE
+======================================================================
+*/
+
 package socit.inprola.project;
 
 import java.util.ArrayList;
 
+/**
+ * One customer account: balance, transaction history and login lockout.
+ * Deposits and withdrawals return false for an invalid amount instead of throwing.
+ */
 public class BankAccount {
 	
-	/*
-	* Represents one account in NCTN Bank.
-	* Handles balance, transactions, and login security.
-	*/
 
-    // Basic account information
     private int accountNumber;
     private String accountHolder;
+    // Plain text, as submitted. A real bank would store a salted hash.
     private String password;
     private double balance;
 
-    // ArrayList to store transaction history
+    // Each entry is a display string such as "Deposited: 50.0", not a structured record.
     private ArrayList<String> transactions;
 
-    // Security variables
+    // The third wrong password sets locked. Only an admin reset clears it.
     private int failedAttempts;
     private boolean locked;
 
-    // Final constant for maximum login attempts
+    // BankingAppGUI repeats this 3 in its messages, so change both together.
     private static final int MAX_ATTEMPTS = 3;
 
-    // Constructor
+    /** Opens the account unlocked and logs the starting balance as its first transaction. */
     public BankAccount(int accountNumber, String accountHolder,
                        String password, double initialBalance) {
 
@@ -42,7 +57,6 @@ public class BankAccount {
         transactions.add("Account created with deposit: " + initialBalance);
     }
 
-    // Getter methods
     public int getAccountNumber() {
         return accountNumber;
     }
@@ -67,7 +81,6 @@ public class BankAccount {
         return transactions;
     }
 
-    // Setter methods
     public void setPassword(String password) {
         this.password = password;
     }
@@ -76,17 +89,16 @@ public class BankAccount {
         this.locked = locked;
     }
 
-    // Check if entered password matches
     public boolean checkPassword(String inputPassword) {
         return password.equals(inputPassword);
     }
 
-    // Reset failed attempts after successful login
+    /** Called after a successful login and by the admin reset. */
     public void resetFailedAttempts() {
         failedAttempts = 0;
     }
 
-    // Increase failed attempts and lock if needed
+    /** Counts one wrong password and locks the account when the count reaches three. */
     public void incrementFailedAttempts() {
         failedAttempts++;
 
@@ -95,7 +107,7 @@ public class BankAccount {
         }
     }
 
-    // Deposit money
+    /** Adds the amount if it is above zero. Returns false and changes nothing otherwise. */
     public boolean deposit(double amount) {
 
         if (amount > 0) {
@@ -107,7 +119,7 @@ public class BankAccount {
         return false;
     }
 
-    // Withdraw money
+    /** Takes the amount out if it is above zero and no more than the balance. Returns false otherwise. */
     public boolean withdraw(double amount) {
 
         if (amount > 0 && amount <= balance) {

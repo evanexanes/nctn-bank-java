@@ -33,5 +33,17 @@ The admin password in this copy is the demo value `demo-admin`.
 - The admin password was written in the code. It belongs in configuration, not source.
 - The menus are numbered text boxes. A real layout with buttons and tables would be easier to use.
 
+## Project layout
+
+| File | Role |
+|---|---|
+| `src/socit/inprola/project/BankingAppGUI.java` | Entry point and menus, built from JOptionPane dialogs |
+| `src/socit/inprola/project/Bank.java` | The list of accounts, and transfers between them |
+| `src/socit/inprola/project/BankAccount.java` | One account: balance, history and login lockout |
+| `src/module-info.java` | Module descriptor, which needs `java.desktop` for Swing |
+
 ## Notes
-First-year coursework, shared as it was submitted apart from the demo admin password.
+First-year coursework, shared as it was submitted apart from the demo admin password. A later pass added a header block and comments to every source file. The code was not changed.
+
+## Source file headers
+Every source file opens with a header block: program name, description, author, date compiled and a change history. A commit that changes a file adds a row to its history.
