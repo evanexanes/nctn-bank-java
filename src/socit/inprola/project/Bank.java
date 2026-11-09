@@ -1,28 +1,40 @@
+/*
+Program name: Bank.java
+Description: Holds every account in NCTN Bank in an ArrayList and creates, finds and
+   transfers between them. Account numbers start at 1001 and count up. Nothing is
+   saved to disk, so closing the app erases the accounts.
+Author: Exanes, Evan Prens; Prudenciado, Rhona-mae P.
+Date Compiled: 10/08/2026
+======================================================================
+Date           Description                      Programmer name
+======================================================================
+10/08/2026     Initial Implementation           EPPE
+11/09/2026     Added header and comments        EPPE with Claude
+======================================================================
+*/
+
 package socit.inprola.project;
 
 import java.util.ArrayList;
 
+/**
+ * Holds every account in NCTN Bank and handles the operations that involve more than one.
+ * Course demo of ArrayList, loops and composition. Accounts live in memory only.
+ */
 public class Bank {
 	
-	/*
-	* Manages all accounts in NCTN Bank.
-	* Demonstrates ArrayList, loops, and composition.
-	*/
-
-    // ArrayList to store all bank accounts
     private ArrayList<BankAccount> accounts;
 
-    // Starting account number
+    // Next number to hand out. The first account is 1001.
     private int nextAccountNumber;
 
-    // Constructor
     public Bank() {
 
         accounts = new ArrayList<>();
         nextAccountNumber = 1001;
     }
 
-    // Create new account
+    /** Opens an account and returns its number. The menu code validates the input before calling this. */
     public int createAccount(String name, String password, double initialDeposit) {
 
         BankAccount account = new BankAccount(
@@ -35,10 +47,9 @@ public class Bank {
         return account.getAccountNumber();
     }
 
-    // Find account using account number
+    /** Returns the account with this number, or null if there is none. */
     public BankAccount findAccount(int accountNumber) {
 
-        // Using loop to search in ArrayList
         for (int i = 0; i < accounts.size(); i++) {
 
             if (accounts.get(i).getAccountNumber() == accountNumber) {
@@ -49,7 +60,7 @@ public class Bank {
         return null;
     }
 
-    // Find account using account holder name
+    /** Returns the first account whose holder name matches, ignoring case, or null. Names are not unique. */
     public BankAccount findAccountByName(String name) {
 
         for (int i = 0; i < accounts.size(); i++) {
@@ -64,13 +75,16 @@ public class Bank {
         return null;
     }
 
-    // Transfer money between two accounts
+    /**
+     * Moves money between two accounts. Returns false if either account is missing or the sender
+     * cannot cover the amount. Transferring to the same account succeeds and nets to zero.
+     */
     public boolean transfer(int fromAcc, int toAcc, double amount) {
 
         BankAccount sender = null;
         BankAccount receiver = null;
 
-        // Loop to find both accounts
+        // One pass finds both accounts.
         for (int i = 0; i < accounts.size(); i++) {
 
             if (accounts.get(i).getAccountNumber() == fromAcc) {
@@ -82,9 +96,9 @@ public class Bank {
             }
         }
 
-        // If both accounts exist
         if (sender != null && receiver != null) {
 
+            // The history entries say "Withdrew" and "Deposited" and do not name the other account.
             if (sender.withdraw(amount)) {
                 receiver.deposit(amount);
                 return true;
@@ -94,7 +108,7 @@ public class Bank {
         return false;
     }
 
-    // Getter to return all accounts for admin viewing
+    /** Returns the live list, not a copy. Only the admin menu reads it. */
     public ArrayList<BankAccount> getAccounts() {
         return accounts;
     }

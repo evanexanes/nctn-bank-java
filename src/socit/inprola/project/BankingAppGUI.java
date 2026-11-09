@@ -1,25 +1,38 @@
+/*
+Program name: BankingAppGUI.java
+Description: Entry point and menus for NCTN Bank. JOptionPane dialogs drive account
+   creation, login, deposit, withdrawal, transfer, transaction history and the admin
+   menu.
+Author: Exanes, Evan Prens; Prudenciado, Rhona-mae P.
+Date Compiled: 10/08/2026
+======================================================================
+Date           Description                      Programmer name
+======================================================================
+10/08/2026     Initial Implementation           EPPE
+11/09/2026     Added header and comments        EPPE with Claude
+11/09/2026     Amounts accept decimals          EPPE with Claude
+======================================================================
+*/
+
 package socit.inprola.project;
 
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
+/**
+ * Entry point and menus for NCTN Bank, built from JOptionPane dialogs.
+ * Cancel steps back one menu. On the main menu it ends the program.
+ */
 public class BankingAppGUI {
 	
-	/*
-	* Handles user interaction using JOptionPane.
-	* Demonstrates loops, switch, if...else, and input/output.
-	* Bank name: NCTN Bank
-	*/
 
     public static void main(String[] args) {
 
         Bank bank = new Bank();
         boolean running = true;
 
-        // Main system loop
         while (running) {
 
-            // Using array for menu options
             String[] mainMenu = {
                     "1. Create Account",
                     "2. Access Account",
@@ -29,7 +42,6 @@ public class BankingAppGUI {
 
             String menuText = "Welcome To NCTN Bank\n\n";
 
-            // Loop through array to build menu
             for (int i = 0; i < mainMenu.length; i++) {
                 menuText += mainMenu[i] + "\n";
             }
@@ -65,10 +77,15 @@ public class BankingAppGUI {
         }
     }
 
-    // Check if input is numeric
+    /**
+     * True for a string of one to nine digits, which always fits in an int. Used for account numbers.
+     */
     private static boolean isNumeric(String input) {
 
         if (input == null || input.isBlank()) return false;
+
+        // Nine digits at most, so Integer.parseInt cannot overflow.
+        if (input.length() > 9) return false;
 
         for (int i = 0; i < input.length(); i++) {
             if (!Character.isDigit(input.charAt(i))) {
@@ -79,7 +96,16 @@ public class BankingAppGUI {
         return true;
     }
 
-    // Create account method
+    /**
+     * True for a money amount: an optional minus sign, up to twelve digits and at most two decimal
+     * places, such as "50", "12.5" or "-3". The sign is accepted so callers can say why it is refused.
+     */
+    private static boolean isAmount(String input) {
+
+        return input != null && input.matches("-?\\d{1,12}(\\.\\d{1,2})?");
+    }
+
+    /** Asks for a holder name, a password and a whole-number deposit, then opens the account. */
     private static void createAccount(Bank bank) {
 
         String name = JOptionPane.showInputDialog("Enter Account Holder Name:");
@@ -90,7 +116,7 @@ public class BankingAppGUI {
 
         String depositInput = JOptionPane.showInputDialog("Enter Initial Deposit:");
 
-        if (!isNumeric(depositInput)) {
+        if (!isAmount(depositInput)) {
             JOptionPane.showMessageDialog(null,
                     "Deposit must be numeric.");
             return;
@@ -98,7 +124,9 @@ public class BankingAppGUI {
 
         double deposit = Double.parseDouble(depositInput);
 
-        if (deposit < 0) {
+        // isAmount lets a minus sign through so a negative deposit gets its own message. The text is
+        // checked, not the number, because "-0" parses to a negative zero that "< 0" would miss.
+        if (depositInput.startsWith("-")) {
             JOptionPane.showMessageDialog(null,
                     "Deposit cannot be negative.");
             return;
@@ -110,7 +138,10 @@ public class BankingAppGUI {
                 "Account Created!\nAccount Number: " + accNum);
     }
 
-    // Access account method
+    /**
+     * Logs in, then runs the account menu until the user logs out. Three wrong passwords lock the
+     * account, and the count carries over between visits until a correct login resets it.
+     */
     private static void accessAccount(Bank bank) {
 
         String accInput = JOptionPane.showInputDialog("Enter Account Number:");
@@ -139,7 +170,6 @@ public class BankingAppGUI {
 
         boolean loggedIn = false;
 
-        // Login loop
         while (!loggedIn && !account.isLocked()) {
 
             String password = JOptionPane.showInputDialog("Enter Password:");
@@ -159,6 +189,7 @@ public class BankingAppGUI {
                             "Account locked after 3 failed attempts.");
                     return;
                 } else {
+                    // 3 is MAX_ATTEMPTS from BankAccount.
                     int remaining = 3 - account.getFailedAttempts();
                     JOptionPane.showMessageDialog(null,
                             "Incorrect password. Attempts left: " + remaining);
@@ -166,7 +197,6 @@ public class BankingAppGUI {
             }
         }
         
-        // Account menu loop
         boolean insideMenu = true;
 
         while (insideMenu) {
@@ -182,7 +212,6 @@ public class BankingAppGUI {
 
             String menuText = "Account Menu\n";
 
-            // Loop through array again
             for (int i = 0; i < accountMenu.length; i++) {
                 menuText += accountMenu[i] + "\n";
             }
@@ -190,12 +219,11 @@ public class BankingAppGUI {
             String choice = JOptionPane.showInputDialog(menuText);
             if (choice == null) return;
             
-            // Using switch statement for account operations
             switch (choice) {
 
                 case "1":
                     JOptionPane.showMessageDialog(null,
-                            "Current Balance: " + account.getBalance());
+                            String.format("Current Balance: %.2f", account.getBalance()));
                     break;
 
                 case "2":
@@ -227,12 +255,12 @@ public class BankingAppGUI {
         }
     }
     
-    // Separate methods for each account operation to keep main method clean
+    // Each account operation gets its own method so accessAccount stays a menu loop.
     private static void handleDeposit(BankAccount account) {
 
         String input = JOptionPane.showInputDialog("Enter Deposit Amount:");
 
-        if (!isNumeric(input)) {
+        if (!isAmount(input)) {
             JOptionPane.showMessageDialog(null,
                     "Amount must be numeric.");
             return;
@@ -249,12 +277,11 @@ public class BankingAppGUI {
         }
     }
 
-    // Withdraw method with validation
     private static void handleWithdraw(BankAccount account) {
 
         String input = JOptionPane.showInputDialog("Enter Withdrawal Amount:");
 
-        if (!isNumeric(input)) {
+        if (!isAmount(input)) {
             JOptionPane.showMessageDialog(null,
                     "Amount must be numeric.");
             return;
@@ -271,7 +298,6 @@ public class BankingAppGUI {
         }
     }
     
-    // Method to display transaction history
     private static void showTransactions(BankAccount account) {
 
         String history = "Transaction History:\n";
@@ -283,7 +309,8 @@ public class BankingAppGUI {
         JOptionPane.showMessageDialog(null, history);
     }
 
-    // Method to handle fund transfer between accounts
+    // Bank.transfer returns one false for a missing account and for too little money,
+    // so the message cannot say which.
     private static void handleTransfer(Bank bank, BankAccount sender) {
 
         String toAccInput = JOptionPane.showInputDialog(
@@ -300,7 +327,7 @@ public class BankingAppGUI {
         String amountInput = JOptionPane.showInputDialog(
                 "Enter Transfer Amount:");
 
-        if (!isNumeric(amountInput)) {
+        if (!isAmount(amountInput)) {
             JOptionPane.showMessageDialog(null,
                     "Amount must be numeric.");
             return;
@@ -317,7 +344,10 @@ public class BankingAppGUI {
         }
     }
 
-    // Admin access method with password protection and a feature to view all accounts
+    /**
+     * Admin menu: unlock and reset one account, or list all of them. The password is the demo
+     * value "demo-admin" written into the code.
+     */
     private static void adminAccess(Bank bank) {
 
         String adminPassword = JOptionPane.showInputDialog("Enter Admin Password:");
@@ -351,7 +381,7 @@ public class BankingAppGUI {
             switch (choice) {
 
                 case "1":
-                    // Existing unlock/reset account feature
+                    // Unlocks the first account with this holder name, then offers a new password.
                     String username = JOptionPane.showInputDialog("Enter Account Holder Name:");
                     if (username == null || username.isBlank()) break;
 
@@ -379,7 +409,6 @@ public class BankingAppGUI {
                     break;
 
                 case "2":
-                    // View all accounts with their numbers and holder names
                     ArrayList<BankAccount> accounts = bank.getAccounts();
                     StringBuilder allAccounts = new StringBuilder("List of Accounts:\n\n");
 
