@@ -69,7 +69,7 @@ public class BankAccount {
         return accountHolder;
     }
 
-    /** Returns the current balance in pesos. */
+    /** Returns the current balance. */
     public double getBalance() {
         return balance;
     }
