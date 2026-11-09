@@ -9,6 +9,10 @@
 ![Course](https://img.shields.io/badge/Course-Intermediate%20Programming-555555)
 [![License: MIT](https://img.shields.io/badge/License-MIT-2d4a7c.svg)](LICENSE)
 
+<img src="docs/screenshot.webp" alt="NCTN Bank dialog boxes: the main menu, the account menu and a transaction history" width="860">
+
+<sub>The app's own Swing dialogs painted off-screen, with sample accounts created through the Bank class.</sub>
+
 </div>
 
 ## Contents
